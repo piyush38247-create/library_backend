@@ -1,0 +1,866 @@
+{
+	"info": {
+		"_postman_id": "library-management-complete",
+		"name": "Library Management System - Complete API",
+		"description": "Complete API collection for Library Management System with proper folder organization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "01. Authentication",
+			"description": "User authentication and profile management endpoints",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@library.com\",\n  \"password\": \"admin123\",\n  \"role\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('auth_token', response.token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@library.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@library.com\",\n  \"name\": \"Admin User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"admin123\",\n  \"newPassword\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/change-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "change-password"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "02. User Dashboard",
+			"description": "User-specific dashboard and data endpoints",
+			"item": [
+				{
+					"name": "Get User Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/dashboard",
+							"host": ["{{base_url}}"],
+							"path": ["user", "dashboard"]
+						}
+					}
+				},
+				{
+					"name": "Get User Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/details",
+							"host": ["{{base_url}}"],
+							"path": ["user", "details"]
+						}
+					}
+				},
+				{
+					"name": "Get User Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/payments",
+							"host": ["{{base_url}}"],
+							"path": ["user", "payments"]
+						}
+					}
+				},
+				{
+					"name": "Get User Due Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/due-payments",
+							"host": ["{{base_url}}"],
+							"path": ["user", "due-payments"]
+						}
+					}
+				},
+				{
+					"name": "Get User Alerts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/alerts",
+							"host": ["{{base_url}}"],
+							"path": ["user", "alerts"]
+						}
+					}
+				},
+				{
+					"name": "Get User Seat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/seat",
+							"host": ["{{base_url}}"],
+							"path": ["user", "seat"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "03. Student Management",
+			"description": "Student CRUD operations and management",
+			"item": [
+				{
+					"name": "Get All Students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/students?search=&shift=all&status=all",
+							"host": ["{{base_url}}"],
+							"path": ["students"],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "shift",
+									"value": "all"
+								},
+								{
+									"key": "status",
+									"value": "all"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Student by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/students/{{student_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["students", "{{student_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Student",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"address\": \"123 Main Street, City\",\n  \"shift\": \"morning\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/students",
+							"host": ["{{base_url}}"],
+							"path": ["students"]
+						}
+					}
+				},
+				{
+					"name": "Update Student",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe Updated\",\n  \"email\": \"john.updated@example.com\",\n  \"phone\": \"+1234567890\",\n  \"address\": \"456 Updated Street, City\",\n  \"shift\": \"evening\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/students/{{student_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["students", "{{student_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Student",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/students/{{student_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["students", "{{student_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "04. Payment Management",
+			"description": "Payment processing and tracking endpoints",
+			"item": [
+				{
+					"name": "Get All Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payments",
+							"host": ["{{base_url}}"],
+							"path": ["payments"]
+						}
+					}
+				},
+				{
+					"name": "Add Pending Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentId\": \"{{student_id}}\",\n  \"amount\": 2500,\n  \"month\": \"January\",\n  \"year\": 2024\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/payments/addPending",
+							"host": ["{{base_url}}"],
+							"path": ["payments", "addPending"]
+						}
+					}
+				},
+				{
+					"name": "Deposit Payment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentId\": \"{{student_id}}\",\n  \"amount\": 2500,\n  \"month\": \"January\",\n  \"year\": 2024,\n  \"paymentType\": \"cash\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/payments/depositPayment",
+							"host": ["{{base_url}}"],
+							"path": ["payments", "depositPayment"]
+						}
+					}
+				},
+				{
+					"name": "Get Student Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payments/get/{{student_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["payments", "get", "{{student_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Payment",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 3000,\n  \"status\": \"paid\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/payments/update/{{payment_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["payments", "update", "{{payment_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Payment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payments/delete/{{payment_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["payments", "delete", "{{payment_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "05. Seat Management",
+			"description": "Seat assignment and management endpoints",
+			"item": [
+				{
+					"name": "Get All Seats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/seats",
+							"host": ["{{base_url}}"],
+							"path": ["seats"]
+						}
+					}
+				},
+				{
+					"name": "Get Seat Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/seats/stats",
+							"host": ["{{base_url}}"],
+							"path": ["seats", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Create Seat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"seatNumber\": \"A001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/seats/create",
+							"host": ["{{base_url}}"],
+							"path": ["seats", "create"]
+						}
+					}
+				},
+				{
+					"name": "Assign Seat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"seatNumber\": \"A001\",\n  \"studentId\": \"{{student_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/seats/assign",
+							"host": ["{{base_url}}"],
+							"path": ["seats", "assign"]
+						}
+					}
+				},
+				{
+					"name": "Unassign Seat",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentId\": \"{{student_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/seats/{{seat_id}}/unassign",
+							"host": ["{{base_url}}"],
+							"path": ["seats", "{{seat_id}}", "unassign"]
+						}
+					}
+				},
+				{
+					"name": "Delete Seat",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"seatNumber\": \"A001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/seats/delete",
+							"host": ["{{base_url}}"],
+							"path": ["seats", "delete"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "06. Expense Management",
+			"description": "Expense tracking and management endpoints",
+			"item": [
+				{
+					"name": "Get All Expenses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/expenses",
+							"host": ["{{base_url}}"],
+							"path": ["expenses"]
+						}
+					}
+				},
+				{
+					"name": "Get Expense Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/expenses/stats",
+							"host": ["{{base_url}}"],
+							"path": ["expenses", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Create Expense",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Office Supplies\",\n  \"amount\": 500,\n  \"category\": \"Supplies\",\n  \"description\": \"Monthly office supplies purchase\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/expenses",
+							"host": ["{{base_url}}"],
+							"path": ["expenses"]
+						}
+					}
+				},
+				{
+					"name": "Update Expense",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Office Supplies Updated\",\n  \"amount\": 600,\n  \"category\": \"Supplies\",\n  \"description\": \"Updated office supplies purchase\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/expenses/{{expense_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["expenses", "{{expense_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Expense",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/expenses/{{expense_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["expenses", "{{expense_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "07. Alert Management",
+			"description": "Alert and notification management endpoints",
+			"item": [
+				{
+					"name": "Get All Alerts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/alerts",
+							"host": ["{{base_url}}"],
+							"path": ["alerts"]
+						}
+					}
+				},
+				{
+					"name": "Get Alert Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/alerts/stats",
+							"host": ["{{base_url}}"],
+							"path": ["alerts", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Create Alert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"System Maintenance\",\n  \"message\": \"System will be under maintenance from 2 AM to 4 AM\",\n  \"type\": \"info\",\n  \"priority\": \"medium\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/alerts",
+							"host": ["{{base_url}}"],
+							"path": ["alerts"]
+						}
+					}
+				},
+				{
+					"name": "Mark Alert as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/alerts/{{alert_id}}/read",
+							"host": ["{{base_url}}"],
+							"path": ["alerts", "{{alert_id}}", "read"]
+						}
+					}
+				},
+				{
+					"name": "Mark All Alerts as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/alerts/read-all",
+							"host": ["{{base_url}}"],
+							"path": ["alerts", "read-all"]
+						}
+					}
+				},
+				{
+					"name": "Delete Alert",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/alerts/{{alert_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["alerts", "{{alert_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "08. Admin Management",
+			"description": "Admin and user management endpoints",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/users",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users"]
+						}
+					}
+				},
+				{
+					"name": "Get User Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/users/stats",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Create Admin User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"newadmin@library.com\",\n  \"password\": \"admin123\",\n  \"role\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users"]
+						}
+					}
+				},
+				{
+					"name": "Update User Permissions",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"permissions\": {\n    \"students\": [\"read\", \"create\"],\n    \"payments\": [\"read\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users/{{user_id}}/permissions",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "{{user_id}}", "permissions"]
+						}
+					}
+				},
+				{
+					"name": "Toggle User Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isActive\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users/{{user_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "{{user_id}}", "status"]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/users/{{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "{{user_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "09. Dashboard Analytics",
+			"description": "Dashboard statistics and analytics endpoints",
+			"item": [
+				{
+					"name": "Get Dashboard Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/dashboard/stats",
+							"host": ["{{base_url}}"],
+							"path": ["dashboard", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Get Revenue Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/dashboard/revenue-analytics",
+							"host": ["{{base_url}}"],
+							"path": ["dashboard", "revenue-analytics"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "10. Health Check",
+			"description": "System health and status endpoints",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
